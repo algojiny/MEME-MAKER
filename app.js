@@ -1,11 +1,12 @@
 const canvas = document.querySelector("canvas");
 const color = document.getElementById("color");
+const colorOption = Array.from(document.getElementsByClassName("color-option"));
 const lineWidth = document.getElementById("line-width");
 const showLineWidth = document.getElementById("show-line-width");
 const showColorCode = document.getElementById("show-color");
 const ctx = canvas.getContext("2d"); //그림을 그릴때 붓처럼 사용하는것 context
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 400;
+canvas.height = 400;
 ctx.lineWidth = lineWidth.value;
 showLineWidth.innerText = lineWidth.value + "px";
 showColorCode.innerText = color.value;
@@ -43,6 +44,12 @@ function onColorChange(event) {
   ctx.fillStyle = event.target.value;
   showColorCode.innerText = event.target.value;
 }
+function onColorClick(event) {
+  ctx.strokeStyle = event.target.dataset.color;
+  ctx.fillStyle = event.target.dataset.color;
+  color.value = event.target.dataset.color;
+  showColorCode.innerText = event.target.dataset.color;
+}
 
 canvas.addEventListener("mousemove", onMove);
 canvas.addEventListener("mousedown", startPainting);
@@ -51,3 +58,5 @@ canvas.addEventListener("mouseleave", cancelPainting); //마우스가 캔버스�
 
 lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
+
+colorOption.forEach((color) => color.addEventListener("click", onColorClick));
